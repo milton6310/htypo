@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "htypo": {
+      "main": "src/htypo/main.mo",
+      "type": "motoko"
+    },
+    "htypo_frontend": {
+      "dependencies": [
+        "htypo"
+      ],
+      "source": [
+        "src/htypo_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "htypo_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://cloudconvert.com/
+HostUrl=https://eu-central.storage.cloudconvert.com/tasks/2b7c6f95-e54c-43f4-a05c-aa0dd06486e7/Americano.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20250419%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20250419T094909Z&X-Amz-Expires=86400&X-Amz-Signature=84dc08f2b4f7513e9312199bae6c5da57272033da6f8dce3bf0935c01f6eca5d&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22Americano.mp3%22&response-content-type=audio%2Fmpeg&x-id=GetObject

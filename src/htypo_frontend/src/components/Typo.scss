@@ -1,0 +1,127 @@
+        .play-level-select {
+            font-size: 1.5rem;
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .play-level-select-form {
+            width: 42%;
+        }
+
+        .play-level-form-label {
+            font-size: 2rem;
+            color: blue;
+            margin-bottom: 40px;
+        }
+
+        .play-level-form-feedback {
+            font-size: 1.3rem;
+            color: #f070a5;
+        }
+
+        .play-level-select-button {
+            margin-top: 30px;
+            font-size: 1.3rem;
+        }
+
+        .play-panel {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .play-words {
+            color: brown;
+            text-align: center;
+            font-size: 3rem;
+        }
+
+        .play-input-container {
+            position: relative;
+            margin: 50px auto;
+            width: 75%;
+        }
+
+        .play-input-container input[type="text"] {
+            text-align: center;
+            font-size: 20px;
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            padding: 5px 0;
+            background-color: transparent;
+            outline: none;
+        }
+
+        .play-input-container input[type="text"]:focus,
+        .play-input-container input[type="text"]:valid {
+            top: -20px;
+            font-size: 2.3rem;
+            color: #333;
+        }
+
+        .play-input-container .underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 100%;
+            background-color: #333;
+            transform: scaleX(0);
+            transition: all 0.3s ease;
+        }
+
+        .play-input-container input[type="text"]:focus~.underline,
+        .play-input-container input[type="text"]:valid~.underline {
+            transform: scaleX(1);
+        }
+
+        .play-timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .play-timer-label {
+            font-family: Roboto;
+            font-size: 3.5rem;
+            color: rgb(231, 62, 133);
+            margin-bottom: 20px;
+        }
+
+        .play-timer-button {
+            font-size: 1.3rem;
+        }
+
+        .play-status {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .play-status-label {
+            font-family: Roboto;
+            font-size: 3.5rem;
+            color: rgb(231, 62, 133);
+            margin-bottom: 20px;
+        }
+
+        .play-status-table {
+            width: 400px;
+        }
+
+        .play-status-buttons {
+            display: inline-flex;
+            margin-top: 40px;
+        }
+
+        .play-status-button {
+            font-size: 1.3rem;
+            margin-left: 20px;
+            margin-right: 20px;
+        }

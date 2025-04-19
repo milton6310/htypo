@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://cloudconvert.com/
+HostUrl=https://eu-central.storage.cloudconvert.com/tasks/c47f6043-b015-45ac-8dd6-55c48f1a4742/Nostalgia.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20250419%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20250419T094913Z&X-Amz-Expires=86400&X-Amz-Signature=f06736be5d1c02efe4fb4b087a516506fcaea2d87703bcced95065d2cfacc1c2&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22Nostalgia.mp3%22&response-content-type=audio%2Fmpeg&x-id=GetObject
