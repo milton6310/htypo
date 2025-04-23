@@ -11,14 +11,14 @@ export const SidebarLinks = [
         classname: "nav-text",
     },
     {
-        title: "Reports",
-        path: "/reports",
+        title: "Bookmarks",
+        path: "/bookmarks",
         icon: <IoIosPaper />,
         classname: "nav-text",
     },
     {
-        title: "Products",
-        path: "/products",
+        title: "Essays",
+        path: "/essays",
         icon: <FaCartPlus />,
         classname: "nav-text",
     },

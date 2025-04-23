@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthClient } from "@dfinity/auth-client";
 import App from './App';
-import Products from "./routes/Products";
 import Practice from "./routes/Practice";
-import Reports from "./routes/Reports";
+import EssaySeries from "./routes/EssaySeries";
+import Bookmarks from "./routes/Bookmarks";
 import "./index.scss";
 
 const init = async () => {
@@ -38,12 +38,12 @@ async function handleAuthenticated(client) {
                 element: <Practice />,
               },
               {
-                path: "products",
-                element: <Products />,
+                path: "essays",
+                element: <EssaySeries />,
               },
               {
-                path: "reports",
-                element: <Reports />,
+                path: "bookmarks",
+                element: <Bookmarks />,
               },
             ],
           },

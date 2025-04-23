@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 
 function Navbar(props) {
-    console.log("navbar called", props.hidden);
     return (
         <>
             <IconContext.Provider value={{ color: "undefined" }}>

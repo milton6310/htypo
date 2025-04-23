@@ -4,12 +4,14 @@ import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import useSound from "use-sound";
 import Timer from "./Timer";
-import TypoInput from "./TypoInput";
+import TypoSpeech from "./TypoSpeech";
+import TypoKeyboard from "./TypoKeyboard";
 import level_0_1, { skill_levels, level_1, level_10, level_10_9_itchy } from "./Dictionary";
 import 'bootstrap/dist/css/bootstrap.css';
 import "./Typo.scss";
 import catSfx from "../assets/sounds/Cat.mp3";
 import earlySfx from "../assets/sounds/Early.mp3";
+import glassSfx from "../assets/sounds/Glass.mp3";
 
 function Typo() {
     const [skillLevel, setSkillLevel] = useState(1);
@@ -23,6 +25,7 @@ function Typo() {
     const [playResult, setPlayResult] = useState(null);
     const [errorSound] = useSound(catSfx, { volume: 0.5 });
     const [playEndSound] = useSound(earlySfx, { volume: 0.5 });
+    const [glassSound] = useSound(glassSfx, { volume: 0.5 });
 
     function timeStarted() {
         setPlayResult({ "totalWords": null, "correctCount": null, "letterPerSec": null, "letterPerMin": null });
@@ -37,12 +40,9 @@ function Typo() {
         const speed = Math.floor((correctCount / process.env.TYPO_PLAYTIME) * 100) / 100;
         const speedMin = Math.floor(speed * 60 * 100) / 100;
         const status = { ...playResult, "totalWords": totalCount, "correctCount": correctCount, "letterPerSec": speed, "letterPerMin": speedMin };
-        console.log(status);
-        setPlayResult(status);
-        setIsEnded(true);
-        console.log("totalCount", totalCount);
-        console.log("correctCount", correctCount);
         playEndSound();
+        setIsEnded(true);
+        setPlayResult(status);
     }
 
     function handleTypoChange(text) {
@@ -55,19 +55,21 @@ function Typo() {
 
         if (targetWord == inputWord) {
             console.log("user entered correct word");
-            const nextIndex = Math.floor(Math.random() * words.length);
-            setCurrentWord(words[nextIndex]);
             const newCount = correctCount + 1;
             setCorrectCount(newCount);
+            glassSound();
         } else {
             errorSound();
         }
+        const nextIndex = Math.floor(Math.random() * words.length);
+        setCurrentWord(words[nextIndex]);
         setTypedWord("");
         const wordsCount = totalCount + 1;
         setTotalCount(wordsCount);
     }
 
     function handlePlayAgain() {
+        setCurrentWord("Type in the word comes here until time's up!");
         setIsEnded(false);
     }
 
@@ -99,11 +101,14 @@ function Typo() {
         if (!isEnded) {
             return (
                 <div className="play-panel">
+                    <div className="play-panel-speech">
+                        <TypoSpeech text={currentWord} />
+                    </div>
                     <div className="play-words">
                         <p id="target">{currentWord}</p>
                     </div>
                     <div className="play-input-container">
-                        <TypoInput onChange={handleTypoChange} onEnter={handleTypoEnter} />
+                        <TypoKeyboard onChange={handleTypoChange} onEnter={handleTypoEnter} />
                     </div>
                     <Timer duration={process.env.TYPO_PLAYTIME} onStart={timeStarted} onEnd={timesUp} />
                 </div>
@@ -113,12 +118,6 @@ function Typo() {
                 <div className="play-status">
                     <Form.Label className="play-status-label">Play Result</Form.Label>
                     <Table className="play-status-table" striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
                         <tbody>
                             <tr>
                                 <td>Total Words</td>

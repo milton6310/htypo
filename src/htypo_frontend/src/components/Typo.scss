@@ -26,11 +26,16 @@
         }
 
         .play-panel {
-            margin-top: 80px;
+            margin-top: 40px;
             display: flex;
             flex-direction: column;
         }
 
+                .play-panel-speech {
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 20px;
+                }
         .play-words {
             color: brown;
             text-align: center;

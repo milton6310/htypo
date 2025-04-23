@@ -32,8 +32,12 @@ function Timer(props) {
 
     return (
         <div className="play-timer-container">
-            <Form.Label className="play-timer-label">{(secondsLeft <= 0) ? "Time's Up" : secondsLeft}</Form.Label>
-            <Button className="play-timer-button" variant="primary" onClick={handleStart} disabled={isStarted}>Start</Button>
+            <Form.Label className="play-timer-label">
+                {(secondsLeft <= 0) ? "Time's Up" : secondsLeft}
+            </Form.Label>
+            <Button className="play-timer-button" variant="primary" onClick={handleStart} disabled={isStarted}>
+                Start
+            </Button>
         </div>
     );
 }

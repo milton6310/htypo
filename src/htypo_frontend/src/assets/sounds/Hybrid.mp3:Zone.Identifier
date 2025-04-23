@@ -1,4 +1,0 @@
-[ZoneTransfer]
-ZoneId=3
-ReferrerUrl=https://cloudconvert.com/
-HostUrl=https://eu-central.storage.cloudconvert.com/tasks/1ce82392-1937-4e93-a31c-19adc54e76ea/Hybrid.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20250419%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20250419T094911Z&X-Amz-Expires=86400&X-Amz-Signature=1e791c17f99f5d57e72f3a0d191e712aa11b0edd259b945421540507d807a531&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22Hybrid.mp3%22&response-content-type=audio%2Fmpeg&x-id=GetObject

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import hangul from "hangul-js";
 import "react-simple-keyboard/build/css/index.css";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { MdKeyboardHide } from "react-icons/md";
 import "./TypoKeyboard.scss";
 
 const koreanLayout = {
@@ -36,15 +38,7 @@ const displayOptions = {
 function TypoKeyboard(props) {
     const [text, setText] = useState("");
     const [layoutName, setLayoutName] = useState("default");
-    const [hide, setHide] = useState(false);
-
-    useEffect(() => {
-        if (props.hideKeyboard) {
-            setHide(props.hideKeyboard);
-        } else {
-            setHide(false);
-        }
-    }, [hide]);
+    const [isHidden, setIsHidden] = useState(true);
 
     function handleKeyDown(event) {
         event.preventDefault();
@@ -175,26 +169,26 @@ function TypoKeyboard(props) {
         }
     }
 
-    if (hide) {
-        return (
-            <div className="typo-keyboard">
-                <input
-                    value={text}
-                    autoFocus={true}
-                    onKeyDown={handleKeyDown}
-                    onChange={handleChangeInput}
-                />
-            </div>
-        );
-    } else {
-        return (
-            <div className="typo-keyboard">
-                <input
-                    value={text}
-                    autoFocus={true}
-                    onKeyDown={handleKeyDown}
-                    onChange={handleChangeInput}
-                />
+    function handleClickHide() {
+        setIsHidden(!isHidden);
+    }
+
+    return (
+        <div className="typo-keyboard">
+            <input
+                value={text}
+                autoFocus={true}
+                onKeyDown={handleKeyDown}
+                onChange={handleChangeInput}
+            />
+            {isHidden ? <MdKeyboardHide
+                onClick={handleClickHide}
+                style={{ color: 'black', fontSize: '35px' }}
+            /> : <MdKeyboardDoubleArrowUp
+                onClick={handleClickHide}
+                style={{ color: 'black', fontSize: '35px' }}
+            />}
+            {!isHidden &&
                 <Keyboard
                     onChange={handleChange}
                     onKeyPress={handleKeyPress}
@@ -205,9 +199,9 @@ function TypoKeyboard(props) {
                     syncInstanceInputs={true}
                     display={displayOptions}
                 />
-            </div>
-        );
-    }
+            }
+        </div>
+    );
 }
 
 export default TypoKeyboard;

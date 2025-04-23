@@ -6,7 +6,7 @@ function TypoInput(props) {
     const [text, setText] = useState("");
 
     function handleKeyDown(event) {
-        console.log("key down", event.key);
+        // console.log("key down", event.key);
         event.preventDefault();
         let letter;
         switch (event.key) {
@@ -100,7 +100,7 @@ function TypoInput(props) {
     }
 
     function handleChange(event) {
-        console.log("input changed");
+        // console.log("input changed");
     }
 
     return (
