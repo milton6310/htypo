@@ -1,9 +1,9 @@
 import React from "react";
-import Typo from "../components/Typo";
+import Typo from "../components/typos/Typo";
 
 function Practice() {
     return (
-        <div className="practice">
+        <div>
             <Typo />
         </div>
     );

@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import hangul from "hangul-js";
 import "./TypoInput.scss";
 
-function TypoInput(props) {
+const TypoInput = forwardRef((props, ref) => {
     const [text, setText] = useState("");
+    const inputRef = useRef(null);
+
+    useImperativeHandle(ref, () => ({
+        focus: () => {
+            inputRef.current.focus();
+        },
+    }));
 
     function handleKeyDown(event) {
         // console.log("key down", event.key);
@@ -106,6 +113,7 @@ function TypoInput(props) {
     return (
         <div className="typo-text">
             <input
+                ref={inputRef}
                 type="text"
                 autoFocus={true}
                 value={text}
@@ -114,6 +122,6 @@ function TypoInput(props) {
             />
         </div>
     );
-}
+});
 
 export default TypoInput;

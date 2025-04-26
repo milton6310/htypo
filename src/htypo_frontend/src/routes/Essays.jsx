@@ -14,9 +14,8 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
 import imageSrc from "../assets/logo.png";
-import "./EssaySeries.scss";
 
-function EssaySeries() {
+function Essays() {
 
     return (
         <Accordion defaultActiveKey={['0']} alwaysOpen>
@@ -128,4 +127,4 @@ function EssaySeries() {
     );
 }
 
-export default EssaySeries;
+export default Essays;

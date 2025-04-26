@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthClient } from "@dfinity/auth-client";
 import App from './App';
 import Practice from "./routes/Practice";
-import EssaySeries from "./routes/EssaySeries";
+import Games from "./routes/Games";
+import Essays from "./routes/Essays";
 import Bookmarks from "./routes/Bookmarks";
 import "./index.scss";
 
@@ -38,8 +39,12 @@ async function handleAuthenticated(client) {
                 element: <Practice />,
               },
               {
+                path: "games",
+                element: <Games />,
+              },
+              {
                 path: "essays",
-                element: <EssaySeries />,
+                element: <Essays />,
               },
               {
                 path: "bookmarks",

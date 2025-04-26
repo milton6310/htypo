@@ -6,6 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import "bootstrap/dist/css/bootstrap.css";
 
 function Header() {
     const expand = "typo";
@@ -29,7 +30,8 @@ function Header() {
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                 <Nav.Link href="/">Practice</Nav.Link>
-                                <Nav.Link href="/essays">Essay Series</Nav.Link>
+                                <Nav.Link href="/games">Games</Nav.Link>
+                                <Nav.Link href="/essays">Essays</Nav.Link>
                                 <Nav.Link href="/bookmarks">Bookmarks</Nav.Link>
                                 <NavDropdown
                                     title="Dropdown"
