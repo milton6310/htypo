@@ -7,7 +7,7 @@ import glassSfx from "../../assets/sounds/Glass.mp3";
 import { level_10 } from "../Dictionary";
 import "./TypoGames.scss";
 
-function Games() {
+function TypoGames() {
     const [currentWord, setCurrentWord] = useState("");
     const [isWordHidden, setWordHidden] = useState(true);
     const [isStarted, setIsStarted] = useState(false);
@@ -149,4 +149,4 @@ function Games() {
     );
 }
 
-export default Games;
+export default TypoGames;
