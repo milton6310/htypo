@@ -6,6 +6,7 @@ import App from './App';
 import Practice from "./routes/Practice";
 import Games from "./routes/Games";
 import Essays from "./routes/Essays";
+import Token from './routes/Token';
 import Bookmarks from "./routes/Bookmarks";
 import "./index.scss";
 
@@ -45,6 +46,10 @@ async function handleAuthenticated(client) {
               {
                 path: "essays",
                 element: <Essays />,
+              },
+              {
+                path: "token",
+                element: <Token />,
               },
               {
                 path: "bookmarks",

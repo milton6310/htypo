@@ -8,7 +8,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import "bootstrap/dist/css/bootstrap.css";
 
-function Header() {
+function Header(props) {
     const expand = "typo";
 
     return (
@@ -16,6 +16,7 @@ function Header() {
             <Navbar key={expand} expand={expand}>
                 <Container fluid>
                     <Navbar.Brand href="/">Hangul Typo</Navbar.Brand>
+                    <Navbar.Text>Welcome, {props.userPrincipal}</Navbar.Text>
                     <Navbar.Toggle aria-controls={`navbar-${expand}`} />
                     <Navbar.Offcanvas
                         id={`navbar-${expand}`}
@@ -32,6 +33,7 @@ function Header() {
                                 <Nav.Link href="/">Practice</Nav.Link>
                                 <Nav.Link href="/games">Games</Nav.Link>
                                 <Nav.Link href="/essays">Essays</Nav.Link>
+                                <Nav.Link href="/token">MIKI Token</Nav.Link>
                                 <Nav.Link href="/bookmarks">Bookmarks</Nav.Link>
                                 <NavDropdown
                                     title="Dropdown"

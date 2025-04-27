@@ -30,13 +30,14 @@ function Transfer() {
     }
 
     return (
-        <div className="window white">
+        <div className="token-window white">
             <div className="transfer">
-                <fieldset>
+                <fieldset className="token-fieldset">
                     <legend>To Account:</legend>
                     <ul>
                         <li>
                             <input
+                                className="token-input"
                                 type="text"
                                 id="transfer-to-id"
                                 value={recipientId}
@@ -45,11 +46,12 @@ function Transfer() {
                         </li>
                     </ul>
                 </fieldset>
-                <fieldset>
+                <fieldset className="token-fieldset">
                     <legend>Amount:</legend>
                     <ul>
                         <li>
                             <input
+                                className="token-input"
                                 type="number"
                                 id="amount"
                                 value={amount}
@@ -59,7 +61,7 @@ function Transfer() {
                     </ul>
                 </fieldset>
                 <p className="trade-buttons">
-                    <button id="btn-transfer" onClick={handleClick} disabled={isDisabled} >
+                    <button className="token-button" id="btn-transfer" onClick={handleClick} disabled={isDisabled} >
                         Transfer
                     </button>
                 </p>

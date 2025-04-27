@@ -6,8 +6,8 @@ import { Outlet } from "react-router-dom";
 function App(props) {
   return (
     <div id="screen">
-      <Header />
-      <Outlet />
+      <Header userPrincipal={props.loggedInPrincipal} />
+      <Outlet userPrincipal={props.loggedInPrincipal} />
       <Footer userPrincipal={props.loggedInPrincipal} />
     </div>
   );

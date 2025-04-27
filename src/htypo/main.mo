@@ -6,30 +6,32 @@ import List "mo:base/List";
 import Debug "mo:base/Debug";
 
 actor Htypo {
-  // note interface
-  public type Note = {
+  // essay interface
+  public type Writing = {
     title: Text;
     content: Text;
+    published: Text;
   };
-  stable var notes: List.List<Note> = List.nil<Note>();
+  stable var writings: List.List<Writing> = List.nil<Writing>();
 
-  public func createNote(titleText: Text, contentText: Text) {
-    let newNote: Note = {
+  public func createWriting(titleText: Text, contentText: Text, publishedText: Text) {
+    let newWriting: Writing = {
       title = titleText;
       content = contentText;
+      published = publishedText;
     };
-    notes := List.push(newNote, notes);
-    Debug.print(debug_show (notes));
+    writings := List.push(newWriting, writings);
+    Debug.print(debug_show (writings));
   };
 
-  public query func readNotes(): async [Note] {
-    return List.toArray(notes);
+  public query func readWritings(): async [Writing] {
+    return List.toArray(writings);
   };
 
-  public func removeNote(id: Nat) {
-    let frontNotes = List.take(notes, id);
-    let backNotes = List.drop(notes, id + 1);
-    notes := List.append(frontNotes, backNotes);
+  public func removeWriting(id: Nat) {
+    let frontWritings = List.take(writings, id);
+    let backWritings = List.drop(writings, id + 1);
+    writings := List.append(frontWritings, backWritings);
   };
 
   // token interface

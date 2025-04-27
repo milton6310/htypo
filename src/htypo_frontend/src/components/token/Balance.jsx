@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Principal } from "@dfinity/principal";
-import { htypo } from "../../../../declarations/htypo";
 
 function Balance() {
 
@@ -12,22 +11,23 @@ function Balance() {
     getCryptoSymbol();
 
     async function getCryptoSymbol() {
-        setSymbol(await mtoken_backend.getSymbol());
+        setSymbol(await htypo.getSymbol());
     };
 
     async function handleClick() {
         // console.log(inputId);
         const principal = Principal.fromText(inputId);
-        const balance = await mtoken_backend.balanceOf(principal);
+        const balance = await htypo.balanceOf(principal);
         setBalance(balance.toLocaleString());
         setHidden(false);
     }
 
     return (
-        <div className="window white">
+        <div className="token-window white">
             <label>Check account token balance:</label>
             <p>
                 <input
+                    className="token-input"
                     id="balance-principal-id"
                     type="text"
                     placeholder="Enter a Principal ID"
@@ -37,6 +37,7 @@ function Balance() {
             </p>
             <p className="trade-buttons">
                 <button
+                    className="token-button"
                     id="btn-request-balance"
                     onClick={handleClick}
                 >

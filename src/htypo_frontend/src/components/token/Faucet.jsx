@@ -22,16 +22,16 @@ function Faucet(props) {
     }
 
     return (
-        <div className="blue window">
+        <div className="blue token-window">
             <h2>
-                <span role="img" aria-label="tap emoji">
+                <span className="token-span" role="img" aria-label="tap emoji">
                     🚰
                 </span>
                 Faucet
             </h2>
             <label>Get your free tokens here! Claim 10,000 MIKI tokens to {props.userPrincipal}.</label>
             <p className="trade-buttons">
-                <button disabled={isDisabled} id="btn-payout" onClick={handleClick}>
+                <button className="token-button" disabled={isDisabled} id="btn-payout" onClick={handleClick}>
                     {buttonText}
                 </button>
             </p>
