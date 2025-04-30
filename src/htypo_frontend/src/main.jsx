@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthClient } from "@dfinity/auth-client";
 import App from './App';
-import Practice from "./routes/Practice";
-import Games from "./routes/Games";
-import Essays from "./routes/Essays";
-import Token from './routes/Token';
-import Bookmarks from "./routes/Bookmarks";
 import "./index.scss";
 
 const init = async () => {
@@ -30,35 +24,7 @@ async function handleAuthenticated(client) {
   const userPrincipalStr = userPrincipal.toString();
   ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-      <RouterProvider router={
-        createBrowserRouter([
-          {
-            element: <App loggedInPrincipal={userPrincipalStr} />,
-            children: [
-              {
-                path: "/",
-                element: <Practice />,
-              },
-              {
-                path: "games",
-                element: <Games />,
-              },
-              {
-                path: "essays",
-                element: <Essays />,
-              },
-              {
-                path: "token",
-                element: <Token />,
-              },
-              {
-                path: "bookmarks",
-                element: <Bookmarks />,
-              },
-            ],
-          },
-        ])
-      } />
+      <App loggedInPrincipal={userPrincipalStr} />
     </React.StrictMode>,
   );
 }
