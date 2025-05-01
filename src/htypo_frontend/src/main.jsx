@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { AuthClient } from "@dfinity/auth-client";
-import App from './App';
+import App from './components/App';
 import "./index.scss";
 
 const init = async () => {
