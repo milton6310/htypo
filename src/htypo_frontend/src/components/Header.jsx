@@ -5,7 +5,7 @@ import TypoGames from "./typos/TypoGames";
 import Essay from "./Essay";
 import logo from "../assets/logo.png";
 import homeImage from "../assets/hunminjungeum.png";
-import TypoKeyboard from "./typos/TypoKeyboard";
+import TypoToSpeech from "./typos/TypoToSpeech";
 
 function Header(props) {
 
@@ -42,7 +42,7 @@ function Header(props) {
             </div>
             <Routes>
             {/* <Route exact path="/" element={<img className="bottom-space" src={homeImage} />} /> */}
-            <Route exact path="/" element={<TypoKeyboard />} />
+            <Route exact path="/" element={<TypoToSpeech />} />
             <Route path="/practice" element={<Typo />} />
             <Route path="/games" element={<TypoGames />} />
             <Route path="/essays" element={<Essay />} />

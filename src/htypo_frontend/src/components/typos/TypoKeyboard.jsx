@@ -5,6 +5,7 @@ import "react-simple-keyboard/build/css/index.css";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { MdKeyboardHide } from "react-icons/md";
 import "./TypoKeyboard.scss";
+import { set } from "react-hook-form";
 
 const koreanLayout = {
     'default': [
@@ -36,6 +37,7 @@ const displayOptions = {
 };
 
 const TypoKeyboard = forwardRef((props, ref) => {
+
     const [text, setText] = useState("");
     const [layoutName, setLayoutName] = useState("default");
     const [isHidden, setIsHidden] = useState(true);

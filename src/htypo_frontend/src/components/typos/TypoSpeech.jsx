@@ -1,37 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, forwardRef, useRef, useImperativeHandle, useEffect } from "react";
 import { AiFillSound, AiFillMuted } from "react-icons/ai";
 import { HiPlay, HiPause } from "react-icons/hi2";
 import { IoIosSettings } from "react-icons/io";
 
-function TypoSpeech(props) {
-    const [text, setText] = useState(props.text || null);
-    const [utterance, setUtterance] = useState(null);
+const TypoSpeech = forwardRef((props, ref) => {
+
     const [voice, setVoice] = useState(null);
     const [pitch, setPitch] = useState(0.8);
     const [rate, setRate] = useState(1);
     const [volume, setVolume] = useState(0.75);
+    const [text, setText] = useState(props.text || "");
+    const [utterance, setUtterance] = useState(null);
     const [isMute, setIsMute] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [isSetting, setIsSetting] = useState(false);
 
-    useEffect(() => {
-        setText(props.text);
-        const speech = window.speechSynthesis;
-        speech.addEventListener("voiceschanged", (event) => {
-            const voices = speech.getVoices();
-            if (voice == null || utterance == null) {
-                const korean = voices.filter((voice) => voice.name == "Google 한국의");
-                setVoice(korean[0]);
-
-                const utter = new SpeechSynthesisUtterance(props.text);
-                utter.lang = "ko-KR";
-                utter.voice = korean[0];
-                utter.pitch = pitch;
-                utter.rate = rate;
-                utter.volume = volume;
-                setUtterance(utter);
+    useImperativeHandle(ref, () => ({
+        speak: (newText) => {
+            setText(newText);
+            const speech = window.speechSynthesis;
+            if (!isMute && utterance) {
+                utterance.text = newText;
+                speech.speak(utterance);
             }
-        });
+        },
+    }));
+
+    useEffect(() => {
+        const speech = window.speechSynthesis;
+        speech.addEventListener("voiceschanged", handleVoicesChanged);
 
         return () => {
             if (speech) {
@@ -42,7 +39,29 @@ function TypoSpeech(props) {
                 });
             }
         };
-    }, [props.text]);
+    }, []);
+
+    function handleVoicesChanged(event) {
+        const speech = window.speechSynthesis;
+        const voices = speech.getVoices();
+        if (voice == null || utterance == null) {
+            const korean = voices.filter((voice) => voice.name == "Google 한국의");
+            setVoice(korean[0]);
+
+            const utter = new SpeechSynthesisUtterance(props.text);
+            utter.lang = "ko-KR";
+            utter.voice = korean[0];
+            utter.pitch = pitch;
+            utter.rate = rate;
+            utter.volume = volume;
+            utter.addEventListener("end", handleUtteranceEnd);
+            setUtterance(utter);
+        }
+    }
+
+    function handleUtteranceEnd(event) {
+        setIsPaused(true);
+    }
 
     function handleVoiceChange(event) {
         const voices = window.speechSynthesis.getVoices();
@@ -157,6 +176,6 @@ function TypoSpeech(props) {
             }
         </div>
     );
-}
+});
 
 export default TypoSpeech;
