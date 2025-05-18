@@ -5,25 +5,9 @@ import TypoGames from "./typos/TypoGames";
 import Essay from "./Essay";
 import logo from "../assets/logo.png";
 import homeImage from "../assets/hunminjungeum.png";
+import TypoKeyboard from "./typos/TypoKeyboard";
 
 function Header(props) {
-
-    // const [userOwnedGallery, setOwnedGallery] = useState();
-    // const [listingGallery, setListingGallery] = useState();
-
-    // async function getNFTs() {
-    //     const userNFTIds = await opend.getOwnedNFTs(CURRENT_USER_ID);
-    //     console.log(userNFTIds);
-    //     setOwnedGallery(<Gallery title="My NFTs" ids={userNFTIds} role="collection" />);
-
-    //     const listedNFTIds = await opend.getListedNFTs();
-    //     console.log(listedNFTIds);
-    //     setListingGallery(<Gallery title="Discover" ids={listedNFTIds} role="discover" />);
-    // };
-
-    // useEffect(() => {
-    //     getNFTs();
-    // }, []);
 
     return (
         <BrowserRouter forceRefresh={true}>
@@ -57,10 +41,11 @@ function Header(props) {
         </header>
             </div>
             <Routes>
-                <Route exact path="/" element={<img className="bottom-space" src={homeImage} />} />
-                <Route path="/practice" element={<Typo />} />
-                <Route path="/games" element={<TypoGames />} />
-                <Route path="/essays" element={<Essay />} />
+            {/* <Route exact path="/" element={<img className="bottom-space" src={homeImage} />} /> */}
+            <Route exact path="/" element={<TypoKeyboard />} />
+            <Route path="/practice" element={<Typo />} />
+            <Route path="/games" element={<TypoGames />} />
+            <Route path="/essays" element={<Essay />} />
             </Routes>
         </BrowserRouter>
     );

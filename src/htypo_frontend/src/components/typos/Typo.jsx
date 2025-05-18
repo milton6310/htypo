@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
@@ -26,6 +26,7 @@ function Typo() {
     const [errorSound] = useSound(catSfx, { volume: 0.5 });
     const [playEndSound] = useSound(earlySfx, { volume: 0.5 });
     const [glassSound] = useSound(glassSfx, { volume: 0.5 });
+    const inputRef = useRef(null);
 
     function timeStarted() {
         setPlayResult({ "totalWords": null, "correctCount": null, "letterPerSec": null, "letterPerMin": null });
@@ -34,6 +35,7 @@ function Typo() {
         setCurrentWord(words[startIndex]);
         const wordsCount = totalCount + 1;
         setTotalCount(wordsCount);
+        inputRef.current.focus();
     }
 
     function timesUp() {
@@ -108,7 +110,7 @@ function Typo() {
                         <p id="target">{currentWord}</p>
                     </div>
                     <div className="play-input-container">
-                        <TypoKeyboard onChange={handleTypoChange} onEnter={handleTypoEnter} />
+                        <TypoKeyboard ref={r => inputRef.current = r} onChange={handleTypoChange} onEnter={handleTypoEnter} />
                     </div>
                     <Timer duration={process.env.TYPO_PLAYTIME} onStart={timeStarted} onEnd={timesUp} />
                 </div>

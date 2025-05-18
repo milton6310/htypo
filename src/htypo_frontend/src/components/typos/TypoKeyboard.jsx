@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import hangul from "hangul-js";
 import "react-simple-keyboard/build/css/index.css";
@@ -35,10 +35,23 @@ const displayOptions = {
     "{pre}": "←",
 };
 
-function TypoKeyboard(props) {
+const TypoKeyboard = forwardRef((props, ref) => {
     const [text, setText] = useState("");
     const [layoutName, setLayoutName] = useState("default");
     const [isHidden, setIsHidden] = useState(true);
+    const [caretPosition, setCaretPosition] = useState(0);
+    const inputRef = useRef(null);
+    const keyboardRef = useRef(null);
+
+    useImperativeHandle(ref, () => ({
+        focus: () => {
+            inputRef.current.focus();
+        },
+    }));
+
+    useEffect(() => {
+        console.log("useEffect called");
+    }, []);
 
     function handleKeyDown(event) {
         event.preventDefault();
@@ -139,6 +152,7 @@ function TypoKeyboard(props) {
 
     function handleChange(input) {
         console.log("keyboard input changed");
+        setCaretPosition(caretPosition + input.length);
     }
 
     function handleKeyPress(key) {
@@ -150,6 +164,8 @@ function TypoKeyboard(props) {
         } else if (key === "{shift}") {
             setLayoutName((prev) => (prev === "default" ? "shift" : "default"));
         } else if (key === "{tab}") {
+            console.log("tab clicked!");
+        } else if (key === "{lock}") {
             console.log("tab clicked!");
         } else if (key === "{enter}") {
             if (props.onEnter) {
@@ -171,11 +187,18 @@ function TypoKeyboard(props) {
 
     function handleClickHide() {
         setIsHidden(!isHidden);
+        inputRef.current.focus();
+    }
+
+    function handleCaretChange(pos) {
+        setCaretPosition(pos);
+        console.log("caret position changed", pos);
     }
 
     return (
         <div className="typo-keyboard">
             <input
+                ref={inputRef}
                 value={text}
                 autoFocus={true}
                 onKeyDown={handleKeyDown}
@@ -190,18 +213,28 @@ function TypoKeyboard(props) {
             />}
             {!isHidden &&
                 <Keyboard
+                    ref={r => (keyboardRef.current = r)}
+                    buttonTheme={[
+                        {
+                        class: "highlight-key",
+                        buttons: "ㅂ ㅈ ㄷ ㄱ ㅅ ㅛ ㅕ ㅑ ㅐ ㅔ ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ ㅃ ㅉ ㄸ ㄲ ㅆ ㅛ ㅒ ㅖ"
+                        }
+                    ]}
                     onChange={handleChange}
                     onKeyPress={handleKeyPress}
+                    caretPosition={caretPosition}
+                    onCaretPositionChange={handleCaretChange}
                     layoutName={layoutName}
                     layout={{ ...koreanLayout }}
-                    physicalKeyboardHighlightPress={true}
                     physicalKeyboardHighlight={true}
+                    physicalKeyboardHighlightPress={true}
+                    physicalKeyboardHighlightBgColor={"#9ab4d0"}
                     syncInstanceInputs={true}
                     display={displayOptions}
                 />
             }
         </div>
     );
-}
+});
 
 export default TypoKeyboard;
