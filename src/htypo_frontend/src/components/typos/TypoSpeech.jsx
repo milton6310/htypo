@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useRef, useImperativeHandle, useEffect } from "react";
+import React, { useState, forwardRef, useImperativeHandle, useEffect } from "react";
 import { AiFillSound, AiFillMuted } from "react-icons/ai";
 import { HiPlay, HiPause } from "react-icons/hi2";
 import { IoIosSettings } from "react-icons/io";
@@ -9,18 +9,29 @@ const TypoSpeech = forwardRef((props, ref) => {
     const [pitch, setPitch] = useState(0.8);
     const [rate, setRate] = useState(1);
     const [volume, setVolume] = useState(0.75);
-    const [text, setText] = useState(props.text || "");
+    const [text, setText] = useState(props.defaultText || "");
     const [utterance, setUtterance] = useState(null);
     const [isMute, setIsMute] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [isSetting, setIsSetting] = useState(false);
 
     useImperativeHandle(ref, () => ({
+        setText: (newText) => {
+            setText(newText);
+        },
+        stop: () => {
+            const speech = window.speechSynthesis;
+            if (speech) {
+                speech.cancel();
+                setIsPaused(false);
+            }
+        },
         speak: (newText) => {
             setText(newText);
             const speech = window.speechSynthesis;
             if (!isMute && utterance) {
                 utterance.text = newText;
+                utterance.addEventListener("end", handleUtteranceEnd);
                 speech.speak(utterance);
             }
         },
@@ -48,7 +59,7 @@ const TypoSpeech = forwardRef((props, ref) => {
             const korean = voices.filter((voice) => voice.name == "Google 한국의");
             setVoice(korean[0]);
 
-            const utter = new SpeechSynthesisUtterance(props.text);
+            const utter = new SpeechSynthesisUtterance(text);
             utter.lang = "ko-KR";
             utter.voice = korean[0];
             utter.pitch = pitch;
@@ -60,7 +71,10 @@ const TypoSpeech = forwardRef((props, ref) => {
     }
 
     function handleUtteranceEnd(event) {
-        setIsPaused(true);
+        if (props.onEnd) {
+            props.onEnd();
+        }
+        setIsPaused(false);
     }
 
     function handleVoiceChange(event) {

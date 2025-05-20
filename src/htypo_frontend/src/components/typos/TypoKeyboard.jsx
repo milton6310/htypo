@@ -1,11 +1,10 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import hangul from "hangul-js";
 import "react-simple-keyboard/build/css/index.css";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { MdKeyboardHide } from "react-icons/md";
 import "./TypoKeyboard.scss";
-import { set } from "react-hook-form";
 
 const koreanLayout = {
     'default': [
@@ -50,10 +49,6 @@ const TypoKeyboard = forwardRef((props, ref) => {
             inputRef.current.focus();
         },
     }));
-
-    useEffect(() => {
-        console.log("useEffect called");
-    }, []);
 
     function handleKeyDown(event) {
         event.preventDefault();
