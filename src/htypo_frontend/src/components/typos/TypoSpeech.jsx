@@ -28,6 +28,9 @@ const TypoSpeech = forwardRef((props, ref) => {
         },
         speak: (newText) => {
             setText(newText);
+            if (!utterance) {
+                handleVoicesChanged();
+            }
             const speech = window.speechSynthesis;
             if (!isMute && utterance) {
                 utterance.text = newText;
@@ -38,21 +41,10 @@ const TypoSpeech = forwardRef((props, ref) => {
     }));
 
     useEffect(() => {
-        const speech = window.speechSynthesis;
-        speech.addEventListener("voiceschanged", handleVoicesChanged);
-
-        return () => {
-            if (speech) {
-                speech.cancel();
-                speech.removeEventListener("voiceschanged", () => {
-                    setVoice(null);
-                    setUtterance(null);
-                });
-            }
-        };
+        handleVoicesChanged();
     }, []);
 
-    function handleVoicesChanged(event) {
+    function handleVoicesChanged() {
         const speech = window.speechSynthesis;
         const voices = speech.getVoices();
         if (voice == null || utterance == null) {

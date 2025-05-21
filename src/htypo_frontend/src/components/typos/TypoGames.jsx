@@ -50,22 +50,18 @@ function TypoGames() {
             delay: delay,
             iterations: iter,
         }).finished.then(() => {
-            console.log("animation ended");
             setWordHidden(true);
             errorSound();
             const newHealth = healthRef.current - penalty;
             if (newHealth > 0) {
-                console.log("continue game");
                 healthRef.current = newHealth;
                 startFallingWord();
             } else {
-                console.log("stop game");
                 healthRef.current = 0;
                 setIsStarted(false);
                 clearAnimations();
             }
         }).catch((error) => {
-            // catch Abort.request error
             console.log(error);
         });
 

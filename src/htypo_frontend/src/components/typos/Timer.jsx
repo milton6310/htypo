@@ -6,10 +6,19 @@ const Timer = forwardRef((props, ref) => {
 
     const [startingTime, setStartingTime] = useState(null);
     const [currentTime, setCurrentTime] = useState(null);
+    const [secondsLeft, setSecondsLeft] = useState(props.duration ? props.duration : 30);
     const [isStarted, setIsStarted] = useState(false);
     const intervalRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
+        setStarted: (value) => {
+            setIsStarted(value);
+            if (value) {
+                handleStart();
+            } else {
+                handleStop();
+            }
+        },
         isStarted: () => {
             return isStarted;
         },
@@ -21,17 +30,19 @@ const Timer = forwardRef((props, ref) => {
         }
     }));
 
-    var secondsLeft = props.duration ? props.duration : 30;
-    if (startingTime != null && currentTime != null) {
-        let timeElapsed = Math.floor((currentTime - startingTime) / 1000);
-        secondsLeft = props.duration - timeElapsed;
-        if (secondsLeft <= 0) {
-            secondsLeft = 0;
-            if (props.onEnd) {
-                props.onEnd();
+    useEffect(() => {
+        if (startingTime != null && currentTime != null) {
+            let timeElapsed = Math.floor((currentTime - startingTime) / 1000);
+            let remainingSeconds = props.duration - timeElapsed;
+            if (remainingSeconds <= 0) {
+                remainingSeconds = 0;
+                if (props.onEnd) {
+                    props.onEnd();
+                }
             }
+            setSecondsLeft(remainingSeconds);
         }
-    }
+    }, [currentTime]);
 
     function handleStart() {
         if (intervalRef.current) {
