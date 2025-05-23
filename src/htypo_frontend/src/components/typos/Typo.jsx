@@ -8,7 +8,6 @@ import TypoSpeech from "./TypoSpeech";
 import TypoKeyboard from "./TypoKeyboard";
 import level_0_1, { skill_levels, level_1, level_10, level_10_9_itchy } from "../Dictionary";
 import 'bootstrap/dist/css/bootstrap.css';
-import "./Typo.scss";
 import catSfx from "../../assets/sounds/Cat.mp3";
 import earlySfx from "../../assets/sounds/Early.mp3";
 import glassSfx from "../../assets/sounds/Glass.mp3";

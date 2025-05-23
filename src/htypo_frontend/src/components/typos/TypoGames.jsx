@@ -5,7 +5,6 @@ import useSound from "use-sound";
 import catSfx from "../../assets/sounds/Cat.mp3";
 import glassSfx from "../../assets/sounds/Glass.mp3";
 import { level_10 } from "../Dictionary";
-import "./TypoGames.scss";
 
 function TypoGames() {
     const [currentWord, setCurrentWord] = useState("");

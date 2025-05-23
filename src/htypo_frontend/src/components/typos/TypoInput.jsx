@@ -1,6 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import hangul from "hangul-js";
-import "./TypoInput.scss";
 
 const TypoInput = forwardRef((props, ref) => {
     const [text, setText] = useState("");

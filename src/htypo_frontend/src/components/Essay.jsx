@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Note from "../components/note/Note";
 
 function Essay() {

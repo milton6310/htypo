@@ -4,7 +4,6 @@ import hangul from "hangul-js";
 import "react-simple-keyboard/build/css/index.css";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { MdKeyboardHide } from "react-icons/md";
-import "./TypoKeyboard.scss";
 
 const koreanLayout = {
     'default': [
