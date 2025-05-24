@@ -6,6 +6,7 @@ import useSound from "use-sound";
 import Timer from "./Timer";
 import TypoSpeech from "./TypoSpeech";
 import TypoKeyboard from "./TypoKeyboard";
+import getRandom from "./Random";
 import level_0_1, { skill_levels, level_1, level_10, level_10_9_itchy } from "../Dictionary";
 import 'bootstrap/dist/css/bootstrap.css';
 import catSfx from "../../assets/sounds/Cat.mp3";
@@ -103,7 +104,7 @@ function Typo() {
                 </div>
             ) : null
         );
-    }, [isLevelSelected, isStarted, isFinished, currentWord, typedWord]);
+    }, [isLevelSelected, isStarted, isFinished, currentWord, typedWord, skillLevel]);
 
     function handleChangeLevel(event) {
         const levelId = event.target.id;
@@ -161,7 +162,8 @@ function Typo() {
     }
 
     function getNextWord() {
-        const nextIndex = Math.floor(Math.random() * words.length);
+        var rand = getRandom();
+        const nextIndex = Math.floor(rand() * words.length);
         const nextWord = words[nextIndex];
         setCurrentWord(nextWord);
         speechRef.current.speak(nextWord);

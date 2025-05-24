@@ -4,9 +4,11 @@ import TypoInput from "./TypoInput";
 import useSound from "use-sound";
 import catSfx from "../../assets/sounds/Cat.mp3";
 import glassSfx from "../../assets/sounds/Glass.mp3";
-import { level_10 } from "../Dictionary";
+import getRandom from "./Random";
+import { level_1 } from "../Dictionary";
 
 function TypoGames() {
+
     const [currentWord, setCurrentWord] = useState("");
     const [isWordHidden, setWordHidden] = useState(true);
     const [isStarted, setIsStarted] = useState(false);
@@ -20,9 +22,10 @@ function TypoGames() {
 
     function startFallingWord() {
         // set target word
-        const wordsSize = level_10.nwords;
-        const wordIndex = Math.floor(Math.random() * wordsSize);
-        setCurrentWord(level_10.words[wordIndex]);
+        const wordsSize = level_1.nwords;
+        var rand = getRandom();
+        const wordIndex = Math.floor(rand() * wordsSize);
+        setCurrentWord(level_1.words[wordIndex]);
 
         // create word animation
         const panel = document.querySelector(".panel-middle");
@@ -30,8 +33,8 @@ function TypoGames() {
         const panelWidth = parseInt(panelStyle.width) - 100;
         const panelHeight = parseInt(panelStyle.height) - 40;
 
-        const startLeft = Math.floor(Math.random() * panelWidth + 1);
-        const endLeft = Math.floor(Math.random() * panelWidth + 1);
+        const startLeft = Math.floor(rand() * panelWidth + 1);
+        const endLeft = Math.floor(rand() * panelWidth + 1);
         const startX = startLeft.toString() + 'px';
         const endX = endLeft.toString() + 'px';
         const startY = '10px';

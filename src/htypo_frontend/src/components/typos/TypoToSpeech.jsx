@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import TypoKeyboard from "./TypoKeyboard";
 import TypoSpeech from "./TypoSpeech";
 import Timer from "./Timer";
+import getRandom from "./Random";
 import { level_10 } from "../Dictionary";
 
 function TypoToSpeech(props) {
@@ -34,7 +35,8 @@ function TypoToSpeech(props) {
     }
 
     function speakNextWord() {
-        const nextIndex = Math.floor(Math.random() * words.length);
+        var rand = getRandom();
+        const nextIndex = Math.floor(rand() * words.length);
         const nextWord = words[nextIndex];
         setCurrentWord(nextWord);
         speechRef.current.speak(nextWord);
