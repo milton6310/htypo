@@ -1,30 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { AuthClient } from "@dfinity/auth-client";
 import App from './components/App';
-import "./index.scss";
+import { AuthClient } from '@dfinity/auth-client';
+import { createActor } from '../../declarations/htypo';
+import { canisterId } from '../../declarations/htypo/index';
+import './index.scss';
+
+const network = process.env.DFX_NETWORK;
+const identityProvider =
+  network === 'ic'
+    ? 'https://identity.ic0.app' // Mainnet
+    : 'http://rdmx6-jaaaa-aaaaa-aaadq-cai.localhost:4943'; // Local
 
 const init = async () => {
+
   const authClient = await AuthClient.create();
-  if (authClient.isAuthenticated()) {
+  const isAuthenticated = await authClient.isAuthenticated();
+
+  if (isAuthenticated) {
     handleAuthenticated(authClient);
   } else {
     await authClient.login({
-      identityProvider: "https://identity.ic0.app/#authorize",
-      onSuccess: () => {
-        handleAuthenticated(authClient);
-      }
+      identityProvider,
+      onSuccess: handleAuthenticated(authClient)
     });
   }
 }
 
 async function handleAuthenticated(client) {
-  const identity = await client.getIdentity();
-  const userPrincipal = identity.getPrincipal();
-  const userPrincipalStr = userPrincipal.toString();
+  const identity = client.getIdentity();
+  const actor = createActor(canisterId, {
+    agentOptions: {
+      identity
+    }
+  });
+  const principal = await actor.whoami();
   ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-      <App loggedInPrincipal={userPrincipalStr} />
+      <App loggedInPrincipal={principal} />
     </React.StrictMode>,
   );
 }

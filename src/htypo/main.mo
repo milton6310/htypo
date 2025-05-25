@@ -6,6 +6,61 @@ import List "mo:base/List";
 import Debug "mo:base/Debug";
 
 actor Htypo {
+
+  public query (message) func whoami() : async Principal {
+      message.caller;
+  };
+  var users: List.List<Principal> = List.nil<Principal>();
+
+  public shared(msg) func register(id: Principal) : async Text {
+    Debug.print(debug_show (id));
+    Debug.print(debug_show (msg.caller));
+    if (List.find(users, func (x: Principal) : Bool {x == id}) != null) {
+      return "Already registered";
+    } else {
+      users := List.push(msg.caller, users);
+      return "Registered successfully";
+    }
+  };
+
+  public type Profile = {
+    transferredICP: Nat;
+    wordsPlayed: Nat;
+    correctWords: Nat;
+    lettersPlayed: Nat;
+    secondsPlayed: Nat;
+    highestScore : Nat;
+  };
+  var profiles: HashMap.HashMap<Principal, Profile> = HashMap.HashMap<Principal, Profile>(1, Principal.equal, Principal.hash);
+
+  public func getProfile(id: Principal) : async Profile {
+    let profile: Profile = switch (profiles.get(id)) {
+      case null {
+        let newProfile: Profile = {
+          transferredICP = 0;
+          wordsPlayed = 0;
+          correctWords = 0;
+          lettersPlayed = 0;
+          secondsPlayed = 0;
+          highestScore = 0;
+        };
+        profiles.put(id, newProfile);
+        return newProfile;
+      };
+      case (?result) result;
+    };
+    return profile;
+  };
+
+  public func updateProfile(id: Principal, profile: Profile): async Text {
+    profiles.put(id, profile);
+    return "Profile updated";
+  };
+
+  public query func readProfiles() : async [(Principal, Profile)] {
+    return Iter.toArray(profiles.entries());
+  };
+
   // essay interface
   public type Note = {
     title: Text;

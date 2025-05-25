@@ -41,7 +41,7 @@ function Header(props) {
             </div>
             <Routes>
             <Route exact path="/" element={<TypoHome />} />
-            <Route path="/practice" element={<Typo />} />
+                <Route path="/practice" element={<Typo userId={props.userId} />} />
             <Route path="/games" element={<TypoGames />} />
             <Route path="/essays" element={<Essay />} />
             </Routes>

@@ -1,3 +1,14 @@
+//
+// This file contains code to generate a random number using the current date and time string as a seed.
+// 
+// Usage example:
+//
+// import getRandom from './path/to/this/file';
+//
+// var rand = getRandom();
+// const range = 100; // Define the range for the random number
+// const randomNumber = Math.floor(rand() * range);
+//
 Date.prototype.DDHHMMSS = function () {
     var dd = pad(this.getDate(), 2);
     var hh = pad(this.getHours(), 2);
@@ -50,4 +61,72 @@ function getRandom() {
     return sfc32(seed[0], seed[1], seed[2], seed[3]);
 }
 
+function jsf32(a, b, c, d) {
+    return function() {
+        a |= 0; b |= 0; c |= 0; d |= 0;
+        let t = a - (b << 27 | b >>> 5) | 0;
+        a = b ^ (c << 17 | c >>> 15);
+        b = c + d | 0;
+        c = d + t | 0;
+        d = a + t | 0;
+        return (d >>> 0) / 4294967296;
+    }
+}
+
+function randomJSF32() {
+    const seed = cyrb128(new Date().DDHHMMSS());
+    return jsf32(seed[0], seed[1], seed[2], seed[3]);
+}
+
+function xoshiro128ss(a, b, c, d) {
+    return function() {
+        let t = b << 9, r = b * 5;
+        r = (r << 7 | r >>> 25) * 9;
+        c ^= a;
+        d ^= b;
+        b ^= c;
+        a ^= d;
+        c ^= t;
+        d = d << 11 | d >>> 21;
+        return (r >>> 0) / 4294967296;
+    }
+}
+
+function randomShiro128() {
+    const seed = cyrb128(new Date().DDHHMMSS());
+    return xoshiro128ss(seed[0], seed[1], seed[2], seed[3]);
+}
+
+function mulberry32(a) {
+    return function() {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+
+function randomMulberry() {
+    const seed = cyrb128(new Date().DDHHMMSS());
+    return mulberry32(seed[0]);
+}
+
+function splitmix32(a) {
+    return function() {
+        a |= 0;
+        a = a + 0x9e3779b9 | 0;
+        let t = a ^ a >>> 16;
+        t = Math.imul(t, 0x21f0aaad);
+        t = t ^ t >>> 15;
+        t = Math.imul(t, 0x735a2d97);
+        return ((t = t ^ t >>> 15) >>> 0) / 4294967296;
+    }
+}
+
+function randomSplitMix() {
+    const seed = cyrb128(new Date().DDHHMMSS());
+    return splitmix32(seed[0]);
+}
+
 export default getRandom;
+export { randomJSF32, randomShiro128, randomMulberry, randomSplitMix };

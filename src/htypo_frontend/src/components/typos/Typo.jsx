@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { htypo } from "../../../../declarations/htypo";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
@@ -13,7 +14,7 @@ import catSfx from "../../assets/sounds/Cat.mp3";
 import earlySfx from "../../assets/sounds/Early.mp3";
 import glassSfx from "../../assets/sounds/Glass.mp3";
 
-function Typo() {
+function Typo(props) {
 
     const [words, setWords] = useState(level_0_1.words);
     const [skillLevel, setSkillLevel] = useState(1);
@@ -175,7 +176,18 @@ function Typo() {
         setPlayResult({ "totalWords": 0, "correctCount": 0, "letterPerSec": 0, "letterPerMin": 0 });
     }
 
-    function updatePlayResult() {
+    async function updatePlayResult() {
+        const profile = await htypo.getProfile(props.userId);
+        const totalWords = profile.wordsPlayed + BigInt(totalCount);
+        const correctWords = profile.correctWords + BigInt(correctCount);
+        const newProfile = {
+            ...profile,
+            wordsPlayed: totalWords,
+            correctWords: correctWords
+        };
+        console.log("updatedProfile", newProfile);
+        await htypo.updateProfile(props.userId, newProfile);
+
         const speed = Math.floor((correctCount / process.env.TYPO_PLAYTIME) * 100) / 100;
         const speedMin = Math.floor(speed * 60 * 100) / 100;
         const status = { ...playResult, "totalWords": totalCount, "correctCount": correctCount, "letterPerSec": speed, "letterPerMin": speedMin };
