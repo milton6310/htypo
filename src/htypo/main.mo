@@ -4,21 +4,23 @@ import Nat "mo:base/Nat";
 import Iter "mo:base/Iter";
 import List "mo:base/List";
 import Debug "mo:base/Debug";
+import IcpLedger "canister:icp_ledger_canister";
+import Result "mo:base/Result";
+import Error "mo:base/Error";
 
-actor Htypo {
+actor {
 
   public query (message) func whoami() : async Principal {
       message.caller;
   };
-  var users: List.List<Principal> = List.nil<Principal>();
+  var registeredUsers: List.List<Principal> = List.nil<Principal>();
 
-  public shared(msg) func register(id: Principal) : async Text {
+  public func register(id: Principal) : async Text {
     Debug.print(debug_show (id));
-    Debug.print(debug_show (msg.caller));
-    if (List.find(users, func (x: Principal) : Bool {x == id}) != null) {
+    if (List.find(registeredUsers, func (x: Principal) : Bool {x == id}) != null) {
       return "Already registered";
     } else {
-      users := List.push(msg.caller, users);
+      registeredUsers := List.push(id, registeredUsers);
       return "Registered successfully";
     }
   };
@@ -31,10 +33,10 @@ actor Htypo {
     secondsPlayed: Nat;
     highestScore : Nat;
   };
-  var profiles: HashMap.HashMap<Principal, Profile> = HashMap.HashMap<Principal, Profile>(1, Principal.equal, Principal.hash);
+  var userProfiles: HashMap.HashMap<Principal, Profile> = HashMap.HashMap<Principal, Profile>(1, Principal.equal, Principal.hash);
 
   public func getProfile(id: Principal) : async Profile {
-    let profile: Profile = switch (profiles.get(id)) {
+    let profile: Profile = switch (userProfiles.get(id)) {
       case null {
         let newProfile: Profile = {
           transferredICP = 0;
@@ -44,7 +46,7 @@ actor Htypo {
           secondsPlayed = 0;
           highestScore = 0;
         };
-        profiles.put(id, newProfile);
+        userProfiles.put(id, newProfile);
         return newProfile;
       };
       case (?result) result;
@@ -53,12 +55,12 @@ actor Htypo {
   };
 
   public func updateProfile(id: Principal, profile: Profile): async Text {
-    profiles.put(id, profile);
+    userProfiles.put(id, profile);
     return "Profile updated";
   };
 
   public query func readProfiles() : async [(Principal, Profile)] {
-    return Iter.toArray(profiles.entries());
+    return Iter.toArray(userProfiles.entries());
   };
 
   // essay interface
@@ -152,16 +154,56 @@ actor Htypo {
     }
   };
 
-  // NFT interface
-  // public shared(msg) func mint(imageData: [Nat8], name: Text) : async Principal {
-  //   let owner : Principal = msg.caller;
+  // ICP Ledger interface
+  type Tokens = {
+    e8s : Nat64;
+  };
 
-  //   Debug.print(debug_show (Cycles.balance()));
-  //   Cycles.add(2_500_000_000_000);
-  //   let newNFT = await NFTActorClass.NFT(name, owner, imageData);
-  //   Debug.print(debug_show (Cycles.balance()));
+  type TransferArgs = {
+    amount : Tokens;
+    toPrincipal : Principal;
+    toSubaccount : ?IcpLedger.SubAccount;
+  };
 
-  //       let newNFTPrincipal = await newNFT.getCanisterId();
-  //       return newNFTPrincipal;
-  //   };
+  public shared func transferICP(args : TransferArgs) : async Result.Result<IcpLedger.BlockIndex, Text> {
+    Debug.print(
+      "Transferring "
+      # debug_show (args.amount)
+      # " tokens to principal "
+      # debug_show (args.toPrincipal)
+      # " subaccount "
+      # debug_show (args.toSubaccount)
+    );
+
+    let transferArgs : IcpLedger.TransferArgs = {
+      // can be used to distinguish between transactions
+      memo = 0;
+      // the amount we want to transfer
+      amount = args.amount;
+      // the ICP ledger charges 10_000 e8s for a transfer
+      fee = { e8s = 10_000 };
+      // we are transferring from the canisters default subaccount, therefore we don't need to specify it
+      from_subaccount = null;
+      // we take the principal and subaccount from the arguments and convert them into an account identifier
+      to = Principal.toLedgerAccount(args.toPrincipal, args.toSubaccount);
+      // a timestamp indicating when the transaction was created by the caller; if it is not specified by the caller then this is set to the current ICP time
+      created_at_time = null;
+    };
+
+    try {
+      // initiate the transfer
+      let transferResult = await IcpLedger.transfer(transferArgs);
+
+      // check if the transfer was successfull
+      switch (transferResult) {
+        case (#Err(transferError)) {
+          return #err("Couldn't transfer funds:\n" # debug_show (transferError));
+        };
+        case (#Ok(blockIndex)) { return #ok blockIndex };
+      };
+    } catch (error : Error) {
+      // catch any errors that might occur during the transfer
+      return #err("Reject message: " # Error.message(error));
+    };
+  };
 }

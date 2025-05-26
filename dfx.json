@@ -6,13 +6,25 @@
     },
     "htypo_frontend": {
       "dependencies": [
-        "htypo"
+        "htypo",
+        "icp_ledger_canister"
       ],
       "source": [
         "src/htypo_frontend/dist"
       ],
       "type": "assets",
       "workspace": "htypo_frontend"
+    },
+    "icp_ledger_canister": {
+      "type": "custom",
+      "candid": "https://raw.githubusercontent.com/dfinity/ic/d87954601e4b22972899e9957e800406a0a6b929/rs/rosetta-api/icp_ledger/ledger.did",
+      "wasm": "https://download.dfinity.systems/ic/d87954601e4b22972899e9957e800406a0a6b929/canisters/ledger-canister.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "ryjl3-tyaaa-aaaaa-aaaba-cai"
+        }
+      },
+      "init_arg" : "(variant { Init = record { minting_account = \"fe75be4375df4a8590388891c5a22d6d9d66e62145ae913a5d6606d905d93d9a\"; initial_values = vec { record { \"b256fa11f09f9ebaabcc90bcf01532ce45611375d9f8c29b9cf371402468baf6\"; record { e8s = 10_000_000_000 : nat64; }; }; }; send_whitelist = vec {}; transfer_fee = opt record { e8s = 10_000 : nat64; }; token_symbol = opt \"LICP\"; token_name = opt \"Local ICP\"; } })"
     },
     "internet_identity": {
       "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
