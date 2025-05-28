@@ -119,14 +119,14 @@ actor {
     // msg.caller: canister ID
     if (balances.get(msg.caller) == null) {
       let amount = 10000;
-      let result = await transfer(msg.caller, amount);
+      let result = await transferMiki(msg.caller, amount);
       return result;
     } else {
       return "Already Claimed";
     }
   };
 
-  public shared(msg) func transfer(to : Principal, amount : Nat) : async Text {
+  public shared(msg) func transferMiki(to : Principal, amount : Nat) : async Text {
     // msg.caller: anonymous user
     let fromBalance = await balanceOf(msg.caller);
     if (fromBalance > amount) {
@@ -165,7 +165,7 @@ actor {
     toSubaccount : ?IcpLedger.SubAccount;
   };
 
-  public shared func transferICP(args : TransferArgs) : async Result.Result<IcpLedger.BlockIndex, Text> {
+  public shared func transfer(args : TransferArgs) : async Result.Result<IcpLedger.BlockIndex, Text> {
     Debug.print(
       "Transferring "
       # debug_show (args.amount)
