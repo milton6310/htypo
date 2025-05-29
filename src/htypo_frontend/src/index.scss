@@ -485,3 +485,28 @@ footer {
     cursor: pointer;
     outline: none;
 }
+
+.icp-token-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 200px;
+}
+
+.icp-label {
+    font-size: 1.5rem;
+}
+
+.icp-input {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.icp-id {
+    width: 600px
+}
+
+.icp-button {
+    padding: 10px;
+    border-radius: 10px;
+}

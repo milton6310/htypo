@@ -5,6 +5,7 @@ import TypoGames from "./typos/TypoGames";
 import Essay from "./Essay";
 import logo from "../assets/logo.png";
 import TypoHome from "./typos/TypoHome";
+import IcpToken from "./icp/IcpToken";
 
 function Header(props) {
 
@@ -36,14 +37,20 @@ function Header(props) {
                                 Essays
                             </Link>
                         </button>
+                        <button className="ButtonBase-root Button-root Button-text header-navButtons-3">
+                            <Link style={{ color: 'inherit', textDecoration: 'inherit' }} to="/icp">
+                                ICP
+                            </Link>
+                        </button>
                     </div>
                 </header>
             </div>
             <Routes>
             <Route exact path="/" element={<TypoHome />} />
-                <Route path="/practice" element={<Typo userId={props.userId} />} />
+            <Route path="/practice" element={<Typo userId={props.userId} />} />
             <Route path="/games" element={<TypoGames />} />
             <Route path="/essays" element={<Essay />} />
+            <Route path="/icp" element={<IcpToken />} />
             </Routes>
         </BrowserRouter>
     );
